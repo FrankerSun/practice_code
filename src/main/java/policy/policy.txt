@@ -1,0 +1,4 @@
+grant codeBase "file:/Users/f.s.u/Documents/sourcecode/dynamic_proxy/src/main/java/policy/policy.txt" {
+    permission java.io.FilePermission "/Users/f.s.u/Desktop/policy.txt", "read";
+    permission java.io.FilePermission "/Users/f.s.u/Desktop/policy.txt", "write";
+};
