@@ -1,9 +1,12 @@
 package proxy;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * @author f.s.
  * @date 2018/12/3
  */
+@Slf4j
 public class BeautifulGirl implements Girl {
 
     @Override
@@ -13,6 +16,6 @@ public class BeautifulGirl implements Girl {
             Thread.sleep(1000);
         } catch (InterruptedException ignore) {
         }
-        System.out.println("beautiful girl say HI...");
+        log.info("beautiful girl say HI...");
     }
 }

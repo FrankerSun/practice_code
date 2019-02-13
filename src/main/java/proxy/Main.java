@@ -13,7 +13,7 @@ public class Main {
 
         Girl girl = new BeautifulGirl();
 
-        InvocationHandler handler = new GirlInvocationHandle<Girl>(girl);
+        InvocationHandler handler = new GirlInvocationHandle<>(girl);
 
         Girl girlProxy = (Girl) Proxy.newProxyInstance(
                 Girl.class.getClassLoader(), new Class<?>[]{Girl.class}, handler);
