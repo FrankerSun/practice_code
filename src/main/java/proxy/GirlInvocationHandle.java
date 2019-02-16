@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 
 /**
  * @author f.s.
@@ -16,6 +17,11 @@ public class GirlInvocationHandle<T> implements InvocationHandler {
 
     public GirlInvocationHandle(T target) {
         this.target = target;
+    }
+
+    public Girl getGirlProxy(){
+        return (Girl) Proxy.newProxyInstance(target.getClass().getClassLoader(),
+                target.getClass().getInterfaces(), this);
     }
 
     @Override
