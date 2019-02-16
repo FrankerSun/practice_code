@@ -1,6 +1,7 @@
-package proxy;
+package proxy.dynamicjdk;
 
 import lombok.extern.slf4j.Slf4j;
+import proxy.Girl;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
