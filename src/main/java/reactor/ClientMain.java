@@ -1,5 +1,7 @@
 package reactor;
 
+import lombok.extern.slf4j.Slf4j;
+
 import javax.net.SocketFactory;
 import java.io.*;
 import java.net.InetSocketAddress;
@@ -11,6 +13,7 @@ import java.util.concurrent.Executors;
  * @author f.s.
  * @date 2018/12/6
  */
+@Slf4j
 public class ClientMain {
 
     private Socket socket;
@@ -43,23 +46,24 @@ public class ClientMain {
      */
     public static void main(String[] args) throws IOException {
 
-        int n = 1;
+        int n = 10;
         ExecutorService executorService = Executors.newFixedThreadPool(n);
         for (int i = 0; i < n; i++) {
             executorService.execute(() -> {
                 try {
                     ClientMain client = new ClientMain();
+                    log.info(client.socket.toString());
                     client.send("xmm");
                     DataInputStream inputStream = new DataInputStream(client.in);
                     int dataLength = inputStream.readInt();
                     byte[] data = new byte[dataLength];
                     inputStream.readFully(data);
                     client.socket.close();
-                    System.out.println("receive from server: dataLength=" + data.length);
+                    log.info("receive from server: dataLength={}, currentTimeStamp={}", data.length, System.currentTimeMillis());
                 } catch (IOException e) {
-                    System.out.println(e);
+                    log.error("IOException", e);
                 } catch (Exception e) {
-                    System.out.println(e);
+                    log.error("Exception", e);
                 }
             });
         }

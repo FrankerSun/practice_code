@@ -1,5 +1,7 @@
 package reactor;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
@@ -11,6 +13,7 @@ import java.util.Random;
  * @author f.s.
  * @date 2018/12/5
  */
+@Slf4j
 final class Handler implements Runnable {
 
     private final SocketChannel socket;
@@ -32,19 +35,23 @@ final class Handler implements Runnable {
     }
 
     private boolean inputIsComplete() {
-        System.out.println("inputIsComplete");
+        log.info("inputIsComplete");
         Random random = new Random();
-        return random.nextBoolean();
+        boolean b = random.nextBoolean();
+        log.info("inputIsComplete return={}", b);
+        return b;
     }
 
     private boolean outputIsComplete() {
-        System.out.println("outputIsComplete");
+        log.info("outputIsComplete");
         Random random = new Random();
-        return random.nextBoolean();
+        boolean b = random.nextBoolean();
+        log.info("outputIsComplete return={}", b);
+        return b;
     }
 
     void process() {
-        System.out.println("process");
+        log.info("process currentTime={}", System.currentTimeMillis());
     }
 
     @Override
@@ -55,7 +62,8 @@ final class Handler implements Runnable {
             } else if (state == SENDING) {
                 send();
             }
-        } catch (IOException ignore) {
+        } catch (IOException e) {
+            log.info("IOException", e);
         }
     }
 
@@ -70,6 +78,15 @@ final class Handler implements Runnable {
     }
 
     private void send() throws IOException {
+        log.info("limit = {}", output.limit());
+        log.info("position = {}", output.position());
+        log.info("remain = {}", output.remaining());
+        if (output.remaining() <= 0) {
+            output.flip();
+        }
+        if (output.remaining() > 0) {
+            output.put((byte) 123);
+        }
         socket.write(output);
         if (outputIsComplete()) {
             sk.cancel();
