@@ -11,7 +11,7 @@ import java.util.concurrent.*;
  * @date 2019/2/22
  */
 @Slf4j
-public class Main {
+public class FutureTaskExample {
 
     public static void main(String[] args) throws InterruptedException, ExecutionException {
 

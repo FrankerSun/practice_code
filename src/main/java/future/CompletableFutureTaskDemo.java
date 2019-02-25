@@ -15,6 +15,14 @@ public class CompletableFutureTaskDemo {
 
     public static void main(String[] args) throws InterruptedException {
 
+        CompletableFuture.supplyAsync(() -> 100)
+                .thenApplyAsync(v -> "I am " + v)
+                .thenApplyAsync(v -> v + " first?")
+                // ForkJoinPool.commonPool-worker-1 : 默认使用ForkJoinPool
+                .thenAcceptAsync(val -> log.info(Thread.currentThread().getName()))
+        ;
+
+
         long startTime = System.currentTimeMillis();
         CountDownLatch countDownLatch = new CountDownLatch(1);
 
@@ -36,7 +44,7 @@ public class CompletableFutureTaskDemo {
         completableFuture.whenComplete((result, e) -> log.info("result = " + result));
 
         // 无论相关方法是否已经获取值，都强制设置future.get()所获取的值为value
-        if (new Random().nextBoolean()){
+        if (new Random().nextBoolean()) {
             completableFuture.obtrudeValue(10);
             countDownLatch.countDown();
         }
